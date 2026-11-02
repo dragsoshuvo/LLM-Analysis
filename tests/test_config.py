@@ -13,6 +13,7 @@
 # limitations under the License.
 
 from llm_analysis.config import (DtypeConfig, GPUConfig, ModelConfig,
+                                 canonical_model_name,
                                  get_dtype_config_by_name,
                                  get_gpu_config_by_name,
                                  get_model_config_by_name)
@@ -41,3 +42,8 @@ def test_get_dtype_config_by_name():
     assert dtype_config.weight_bits == 4
     assert dtype_config.activation_bits == 4
     assert dtype_config.embedding_bits == 16
+
+
+def test_canonical_model_name_replaces_namespace_separator():
+    assert canonical_model_name("facebook/opt-125m") == "facebook_opt-125m"
+    assert canonical_model_name("opt-125m") == "opt-125m"
